@@ -19,6 +19,16 @@ public class Main {
         return sum;
     }
 
+    // Return the sum of digits in odd position in number from right to left
+    public static int sumOfOddPlace(long number)
+    {
+        int sum = 0;
+        String num = number + "";
+        for (int i = getSize(number) - 1; i >= 0; i -= 2)
+            sum += Integer.parseInt(num.charAt(i) + "");
+        return sum;
+    }
+
     // Return this number if it is a single digit, otherwise,
     // return the sum of the two digits
     public static int getDigit(int number)
@@ -34,5 +44,4 @@ public class Main {
         String num = digit + "";
         return num.length();
     }
-
 }
