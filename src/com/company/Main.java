@@ -4,7 +4,30 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+        Scanner input = new Scanner(System.in);
+        System.out.print("Welcome to the card number validator.\n\n");
+        System.out.print("Please enter a card number to check if it is valid (omit spaces): ");
+        long number = input.nextLong();
+
+        System.out.println(number + " is " +
+                (isValid(number) ? "a valid card number." : "an invalid card number."));
+    }
+
+    // Return true if the card number is valid. The number must have
+    // between 13 and 16 digits and must start with 1) 4 for Visa,
+    // 5 for Master cards, 37 for AMEX, 6 for Discover. The result must
+    // be divisible by 10 for the card number to be valid.
+
+    public static boolean isValid(long number)
+    {
+        return (getSize(number) >= 13 &&
+                getSize(number) <= 16) &&
+                (prefixMatched(number, 4) ||
+                        prefixMatched(number, 5) ||
+                        prefixMatched(number, 37) ||
+                        prefixMatched(number, 6)) &&
+                ((sumOfDoubleEvenPlace(number) +
+                        sumOfOddPlace(number)) % 10 == 0);
     }
 
     // Get the sum of every second digit from right the left, if it
@@ -36,6 +59,22 @@ public class Main {
         if (number < 9)
             return number;
         return number / 10 + number % 10;
+    }
+
+    // Return true if the digit d is a prefix for number
+    public static boolean prefixMatched(long number, int d)
+    {
+        return getPrefix(number, getSize(d)) == d;
+    }
+
+    // Return the first k number of digits
+    public static long getPrefix(long number, int k)
+    {
+        if (getSize(number) > k) {
+            String num = number + "";
+            return Long.parseLong(num.substring(0, k));
+        }
+        return number;
     }
 
     // A method to return the numbers of digits
